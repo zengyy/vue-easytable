@@ -11,77 +11,71 @@
                         <table class="v-table-htable" border="0" cellspacing="0" cellpadding="0">
                             <tbody>
 
-                            <template v-if="frozenTitleCols.length > 0">
-                                <tr v-for="row in frozenTitleCols">
-                                    <td v-for="col in row"
-                                        :class="[col.titleCellClassName]"
-                                        :colspan="col.colspan" :rowspan="col.rowspan"
-
-                                        @mousemove.stop="handleTitleMouseMove($event,col.fields)"
-                                        @mousedown.stop="handleTitleMouseDown($event)"
-                                        @mouseout.stop="handleTitleMouseOut()"
-                                        @click.stop="titleCellClick(col.fields,col.title);"
-                                        @dblclick.stop="titleCellDblClick(col.fields,col.title)">
-                                        <div :class="['v-table-title-cell',showVerticalBorder?'vertical-border':'',showHorizontalBorder?'horizontal-border':'']"
-                                             :style="{'width':titleColumnWidth(col.fields)+'px','height':titleColumnHeight(col.rowspan)+'px','text-align':col.titleAlign}">
-                                            <span class="table-title">
-                                               <span v-if="isSelectionCol(col.fields)">
-                                                     <v-checkbox
-                                                             @change="handleCheckAll"
-                                                             :indeterminate="indeterminate"
-                                                             v-model="isAllChecked"
-                                                             :show-slot="false"
-                                                             label="check-all"
-                                                     ></v-checkbox>
-                                                </span>
-                                                <span v-else v-html="col.title"></span>
-                                                <span @click.stop="sortControl(col.fields[0])"
-                                                      class="v-table-sort-icon" v-if="enableSort(col.orderBy)">
+                                <template v-if="frozenTitleCols.length > 0">
+                                    <tr v-for="row in frozenTitleCols">
+                                        <td v-for="col in row"
+                                            :class="[col.titleCellClassName]"
+                                            :colspan="col.colspan" :rowspan="col.rowspan"
+                                            @mousemove.stop="handleTitleMouseMove($event,col.fields)"
+                                            @mousedown.stop="handleTitleMouseDown($event)"
+                                            @mouseout.stop="handleTitleMouseOut()"
+                                            @click.stop="titleCellClick(col.fields,col.title);"
+                                            @dblclick.stop="titleCellDblClick(col.fields,col.title)">
+                                            <div :class="['v-table-title-cell',showVerticalBorder?'vertical-border':'',showHorizontalBorder?'horizontal-border':'']"
+                                                 :style="{'width':titleColumnWidth(col.fields)+'px','height':titleColumnHeight(col.rowspan)+'px','text-align':col.titleAlign}">
+                                                <span class="table-title">
+                                                    <span v-if="isSelectionCol(col.fields)">
+                                                        <v-checkbox @change="handleCheckAll"
+                                                                    :indeterminate="indeterminate"
+                                                                    v-model="isAllChecked"
+                                                                    :show-slot="false"
+                                                                    label="check-all"></v-checkbox>
+                                                    </span>
+                                                    <span v-else v-html="col.title"></span>
+                                                    <span @click.stop="sortControl(col.fields[0])"
+                                                          class="v-table-sort-icon" v-if="enableSort(col.orderBy)">
                                                         <i :class='["v-icon-up-dir",getCurrentSort(col.fields[0]) ==="asc" ? "checked":""]'></i>
                                                         <i :class='["v-icon-down-dir",getCurrentSort(col.fields[0]) ==="desc" ? "checked":""]'></i>
+                                                    </span>
                                                 </span>
-                                            </span>
-                                            <!--filters-->
-                                            <v-dropdown class="v-table-dropdown" v-if="enableFilters(col.filters,col.fields)"
-                                                        v-model="col.filters"
-                                                        :show-operation="col.filterMultiple"
-                                                        :is-multiple="col.filterMultiple"
-                                                        @on-filter-method="filterEvent"
-                                                        @change="filterConditionChange(col.filterMultiple)"
-                                            >
-                                                <i :class="['v-table-filter-icon',vTableFiltersIcon(col.filters)]"></i>
-                                            </v-dropdown>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </template>
+                                                <!--filters-->
+                                                <v-dropdown class="v-table-dropdown" v-if="enableFilters(col.filters,col.fields)"
+                                                            v-model="col.filters"
+                                                            :show-operation="col.filterMultiple"
+                                                            :is-multiple="col.filterMultiple"
+                                                            @on-filter-method="filterEvent"
+                                                            @change="filterConditionChange(col.filterMultiple)">
+                                                    <i :class="['v-table-filter-icon',vTableFiltersIcon(col.filters)]"></i>
+                                                </v-dropdown>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </template>
 
-                            <template v-else>
-                                <tr class="v-table-header-row">
-                                    <td v-for="col in frozenCols"
-                                        :class="[col.titleCellClassName]"
-                                        @mousemove.stop="handleTitleMouseMove($event,col.field)"
-                                        @mousedown.stop="handleTitleMouseDown($event)"
-                                        @mouseout.stop="handleTitleMouseOut()"
-                                        @click.stop="titleCellClick(col.field,col.title);"
-                                        @dblclick.stop="titleCellDblClick(col.field,col.title)">
-                                        <div :class="['v-table-title-cell',showVerticalBorder?'vertical-border':'',showHorizontalBorder?'horizontal-border':'']"
-                                             :style="{'width':col.width+'px','height':titleRowHeight+'px','text-align':col.titleAlign}">
+                                <template v-else>
+                                    <tr class="v-table-header-row">
+                                        <td v-for="col in frozenCols"
+                                            :class="[col.titleCellClassName]"
+                                            @mousemove.stop="handleTitleMouseMove($event,col.field)"
+                                            @mousedown.stop="handleTitleMouseDown($event)"
+                                            @mouseout.stop="handleTitleMouseOut()"
+                                            @click.stop="titleCellClick(col.field,col.title);"
+                                            @dblclick.stop="titleCellDblClick(col.field,col.title)">
+                                            <div :class="['v-table-title-cell',showVerticalBorder?'vertical-border':'',showHorizontalBorder?'horizontal-border':'']"
+                                                 :style="{'width':col.width+'px','height':titleRowHeight+'px','text-align':col.titleAlign}">
                                                 <span class="table-title">
-                                                     <span v-if="col.type === 'selection'">
-                                                         <v-checkbox
-                                                                 @change="handleCheckAll"
-                                                                 :indeterminate="indeterminate"
-                                                                 v-model="isAllChecked"
-                                                                 :show-slot="false"
-                                                                 label="check-all"
-                                                         ></v-checkbox>
+                                                    <span v-if="col.type === 'selection'">
+                                                        <v-checkbox @change="handleCheckAll"
+                                                                    :indeterminate="indeterminate"
+                                                                    v-model="isAllChecked"
+                                                                    :show-slot="false"
+                                                                    label="check-all"></v-checkbox>
                                                     </span>
                                                     <span v-else v-html="col.title"></span>
                                                     <span @click.stop="sortControl(col.field)"
                                                           class="v-table-sort-icon" v-if="enableSort(col.orderBy)">
-                                                            <i :class='["v-icon-up-dir",getCurrentSort(col.field) ==="asc" ? "checked":""]'></i>
-                                                            <i :class='["v-icon-down-dir",getCurrentSort(col.field) ==="desc" ? "checked":""]'></i>
+                                                        <i :class='["v-icon-up-dir",getCurrentSort(col.field) ==="asc" ? "checked":""]'></i>
+                                                        <i :class='["v-icon-down-dir",getCurrentSort(col.field) ==="desc" ? "checked":""]'></i>
                                                     </span>
                                                 </span>
                                                 <!--filters-->
@@ -90,14 +84,13 @@
                                                             :show-operation="col.filterMultiple"
                                                             :is-multiple="col.filterMultiple"
                                                             @on-filter-method="filterEvent"
-                                                            @change="filterConditionChange(col.filterMultiple)"
-                                                >
+                                                            @change="filterConditionChange(col.filterMultiple)">
                                                     <i :class="['v-table-filter-icon',vTableFiltersIcon(col.filters)]"></i>
                                                 </v-dropdown>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </template>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </template>
                             </tbody>
                         </table>
                     </div>
@@ -109,57 +102,57 @@
                         <v-checkbox-group v-model="checkboxGroupModel" @change="handleCheckGroupChange">
                             <table class="v-table-btable" cellspacing="0" cellpadding="0" border="0">
                                 <tbody>
-                                <tr v-for="(item,rowIndex) in internalTableData" class="v-table-row"
-                                    :style="[trBgColor(rowIndex+1)]"
-                                    @mouseenter.stop="handleMouseEnter(rowIndex)"
-                                    @mouseleave.stop="handleMouseOut(rowIndex)">
-                                    <td v-if="cellMergeInit(rowIndex,col.field,item,true)"
-                                        v-for="(col,colIndex) in frozenCols"
-                                        :key="colIndex"
-                                        :colSpan="setColRowSpan(rowIndex,col.field,item).colSpan"
-                                        :rowSpan="setColRowSpan(rowIndex,col.field,item).rowSpan"
-                                        :class="[setColumnCellClassName(rowIndex,col.field,item)]">
-                                        <!--存在列合并-->
-                                        <div v-if="isCellMergeRender(rowIndex,col.field,item)"
-                                             :class="['v-table-body-cell',showVerticalBorder ? 'vertical-border':'',showHorizontalBorder?'horizontal-border':'']"
-                                             :style="{'width':getRowWidthByColSpan(rowIndex,col.field,item)+'px','height': getRowHeightByRowSpan(rowIndex,col.field,item)+'px','line-height':getRowHeightByRowSpan(rowIndex,col.field,item)+'px','text-align':col.columnAlign}"
-                                             :title="col.overflowTitle ?  overflowTitle(item,rowIndex,col) :''"
-                                             @click.stop="rowCellClick(rowIndex,item,col);cellEditClick($event,col.isEdit,item,col.field,rowIndex)"
-                                             @dblclick.stop="rowCellDbClick(rowIndex,item,col)"
-                                        >
-                                        <span v-if="cellMergeContentType(rowIndex,col.field,item).isComponent">
-                                            <component :rowData="item" :field="col.field ? col.field : ''"
-                                                       :index="rowIndex"
-                                                       :is="cellMerge(rowIndex,item,col.field).componentName"
-                                                       @on-custom-comp="customCompFunc"></component>
-                                        </span>
-                                            <span v-else v-html="cellMerge(rowIndex,item,col.field).content"></span>
-                                        </div>
-                                        <!--不存在列合并-->
-                                        <div v-else
-                                             :class="['v-table-body-cell',showVerticalBorder ? 'vertical-border':'',showHorizontalBorder?'horizontal-border':'']"
-                                             :style="{'width':col.width+'px','height': rowHeight+'px','line-height':rowHeight+'px','text-align':col.columnAlign}"
-                                             :title="col.overflowTitle ?  overflowTitle(item,rowIndex,col) :''"
-                                             @click.stop="rowCellClick(rowIndex,item,col);cellEditClick($event,col.isEdit,item,col.field,rowIndex)"
-                                             @dblclick.stop="rowCellDbClick(rowIndex,item,col)"
-                                        >
-                                        <span v-if="typeof col.componentName ==='string' && col.componentName.length > 0">
-                                            <component :rowData="item" :field="col.field ? col.field : ''"
-                                                       :index="rowIndex" :is="col.componentName"
-                                                       @on-custom-comp="customCompFunc"></component>
-                                        </span>
-                                            <span v-else-if="typeof col.formatter==='function'"
-                                                  v-html="col.formatter(item,rowIndex,pagingIndex,col.field)"></span>
-                                            <span v-else-if="col.type === 'selection'">
-                                            <v-checkbox @change="handleCheckChange(item)" :show-slot="false"
-                                                        :disabled="item._disabled" :label="rowIndex"></v-checkbox>
-                                        </span>
-                                            <span v-else>
-                                                {{item[col.field]}}
-                                        </span>
-                                        </div>
-                                    </td>
-                                </tr>
+                                    <tr v-for="(item,rowIndex) in internalTableData" class="v-table-row"
+                                        :style="[trBgColor(rowIndex+1)]"
+                                        @mouseenter.stop="handleMouseEnter(rowIndex)"
+                                        @mouseleave.stop="handleMouseOut(rowIndex)">
+                                        <td v-if="cellMergeInit(rowIndex,col.field,item,true)"
+                                            v-for="(col,colIndex) in frozenCols"
+                                            :key="colIndex"
+                                            :colSpan="setColRowSpan(rowIndex,col.field,item).colSpan"
+                                            :rowSpan="setColRowSpan(rowIndex,col.field,item).rowSpan"
+                                            :class="[setColumnCellClassName(rowIndex,col.field,item)]">
+                                            <!--存在列合并-->
+                                            <div v-if="isCellMergeRender(rowIndex,col.field,item)"
+                                                 :class="['v-table-body-cell',showVerticalBorder ? 'vertical-border':'',showHorizontalBorder?'horizontal-border':'']"
+                                                 :style="{'width':getRowWidthByColSpan(rowIndex,col.field,item)+'px','height': getRowHeightByRowSpan(rowIndex,col.field,item)+'px','line-height':getRowHeightByRowSpan(rowIndex,col.field,item)+'px','text-align':col.columnAlign}"
+                                                 :title="col.overflowTitle ?  overflowTitle(item,rowIndex,col) :''"
+                                                 @click.stop="rowCellClick(rowIndex,item,col);cellEditClick($event,col.isEdit,item,col.field,rowIndex)"
+                                                 @dblclick.stop="rowCellDbClick(rowIndex,item,col)"
+                                                 @contextmenu.prevent="rowContextmenu($event,rowIndex,item,col)">
+                                                <span v-if="cellMergeContentType(rowIndex,col.field,item).isComponent">
+                                                    <component :rowData="item" :field="col.field ? col.field : ''"
+                                                               :index="rowIndex"
+                                                               :is="cellMerge(rowIndex,item,col.field).componentName"
+                                                               @on-custom-comp="customCompFunc"></component>
+                                                </span>
+                                                <span v-else v-html="cellMerge(rowIndex,item,col.field).content"></span>
+                                            </div>
+                                            <!--不存在列合并-->
+                                            <div v-else
+                                                 :class="['v-table-body-cell',showVerticalBorder ? 'vertical-border':'',showHorizontalBorder?'horizontal-border':'']"
+                                                 :style="{'width':col.width+'px','height': rowHeight+'px','line-height':rowHeight+'px','text-align':col.columnAlign}"
+                                                 :title="col.overflowTitle ?  overflowTitle(item,rowIndex,col) :''"
+                                                 @click.stop="rowCellClick(rowIndex,item,col);cellEditClick($event,col.isEdit,item,col.field,rowIndex)"
+                                                 @dblclick.stop="rowCellDbClick(rowIndex,item,col)"
+                                                 @contextmenu.prevent="rowContextmenu($event,rowIndex,item,col)">
+                                                <span v-if="typeof col.componentName ==='string' && col.componentName.length > 0">
+                                                    <component :rowData="item" :field="col.field ? col.field : ''"
+                                                               :index="rowIndex" :is="col.componentName"
+                                                               @on-custom-comp="customCompFunc"></component>
+                                                </span>
+                                                <span v-else-if="typeof col.formatter==='function'"
+                                                      v-html="col.formatter(item,rowIndex,pagingIndex,col.field)"></span>
+                                                <span v-else-if="col.type === 'selection'">
+                                                    <v-checkbox @change="handleCheckChange(item)" :show-slot="false"
+                                                                :disabled="item._disabled" :label="rowIndex"></v-checkbox>
+                                                </span>
+                                                <span v-else>
+                                                    {{item[col.field]}}
+                                                </span>
+                                            </div>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </v-checkbox-group>
@@ -193,93 +186,87 @@
                     <table class="v-table-htable" border="0" cellspacing="0" cellpadding="0">
                         <tbody>
 
-                        <template v-if="noFrozenTitleCols.length > 0">
-                            <tr v-for="row in noFrozenTitleCols">
-                                <td v-for="col in row"
-                                    :class="[col.titleCellClassName]"
-                                    :colspan="col.colspan" :rowspan="col.rowspan"
-                                    @mousemove.stop="handleTitleMouseMove($event,col.fields)"
-                                    @mousedown.stop="handleTitleMouseDown($event)"
-                                    @mouseout.stop="handleTitleMouseOut()"
-                                    @click.stop="titleCellClick(col.fields,col.title);"
-                                    @dblclick.stop="titleCellDblClick(col.fields,col.title)">
-                                    <div :class="['v-table-title-cell',showVerticalBorder?'vertical-border':'',showHorizontalBorder?'horizontal-border':'']"
-                                         :style="{'width':titleColumnWidth(col.fields)+'px','height':titleColumnHeight(col.rowspan)+'px','text-align':col.titleAlign}">
-                                        <span class="table-title">
-                                          <span v-if="isSelectionCol(col.fields)">
-                                                 <v-checkbox
-                                                         @change="handleCheckAll"
-                                                         :indeterminate="indeterminate"
-                                                         v-model="isAllChecked"
-                                                         :show-slot="false"
-                                                         label="check-all"
-                                                 ></v-checkbox>
-                                            </span>
-                                            <span v-else v-html="col.title"></span>
-                                            <span @click.stop="sortControl(col.fields[0])"
-                                                  class="v-table-sort-icon" v-if="enableSort(col.orderBy)">
-                                                        <i :class='["v-icon-up-dir",getCurrentSort(col.fields[0]) ==="asc" ? "checked":""]'></i>
-                                                        <i :class='["v-icon-down-dir",getCurrentSort(col.fields[0]) ==="desc" ? "checked":""]'></i>
-                                            </span>
-                                        </span>
-                                        <!--filters-->
-                                        <v-dropdown class="v-table-dropdown" v-if="enableFilters(col.filters,col.fields)"
-                                                    v-model="col.filters"
-                                                    :show-operation="col.filterMultiple"
-                                                    :is-multiple="col.filterMultiple"
-                                                    @on-filter-method="filterEvent"
-                                                    @change="filterConditionChange(col.filterMultiple)"
-                                        >
-                                            <i :class="['v-table-filter-icon',vTableFiltersIcon(col.filters)]"></i>
-                                        </v-dropdown>
-                                    </div>
-                                </td>
-                            </tr>
-                        </template>
-
-                        <template v-else>
-                            <tr class="v-table-header-row">
-                                <td v-for="(col,colIndex) in noFrozenCols"
-                                    :class="[col.titleCellClassName]"
-                                    @mousemove.stop="handleTitleMouseMove($event,col.field)"
-                                    @mousedown.stop="handleTitleMouseDown($event)"
-                                    @mouseout.stop="handleTitleMouseOut()"
-                                    @click.stop="titleCellClick(col.field,col.title);"
-                                    @dblclick.stop="titleCellDblClick(col.field,col.title)">
-                                    <div :class="['v-table-title-cell',showVerticalBorder?'vertical-border':'',showHorizontalBorder?'horizontal-border':'']"
-                                         :style="{'width':col.width+'px','height':titleRowHeight+'px','text-align':col.titleAlign}">
-                                        <span class="table-title">
-                                            <span v-if="col.type === 'selection'">
-                                                 <v-checkbox
-                                                         @change="handleCheckAll"
-                                                         :indeterminate="indeterminate"
-                                                         v-model="isAllChecked"
-                                                         :show-slot="false"
-                                                         label="check-all"
-                                                 ></v-checkbox>
-                                            </span>
-                                            <span v-else v-html="col.title"></span>
-                                            <span @click.stop="sortControl(col.field)"
-                                                  class="v-table-sort-icon"
-                                                  v-if="enableSort(col.orderBy)">
-                                                        <i :class='["v-icon-up-dir",getCurrentSort(col.field) ==="asc" ? "checked":""]'></i>
-                                                        <i :class='["v-icon-down-dir",getCurrentSort(col.field) ==="desc" ? "checked":""]'></i>
+                            <template v-if="noFrozenTitleCols.length > 0">
+                                <tr v-for="row in noFrozenTitleCols">
+                                    <td v-for="col in row"
+                                        :class="[col.titleCellClassName]"
+                                        :colspan="col.colspan" :rowspan="col.rowspan"
+                                        @mousemove.stop="handleTitleMouseMove($event,col.fields)"
+                                        @mousedown.stop="handleTitleMouseDown($event)"
+                                        @mouseout.stop="handleTitleMouseOut()"
+                                        @click.stop="titleCellClick(col.fields,col.title);"
+                                        @dblclick.stop="titleCellDblClick(col.fields,col.title)">
+                                        <div :class="['v-table-title-cell',showVerticalBorder?'vertical-border':'',showHorizontalBorder?'horizontal-border':'']"
+                                             :style="{'width':titleColumnWidth(col.fields)+'px','height':titleColumnHeight(col.rowspan)+'px','text-align':col.titleAlign}">
+                                            <span class="table-title">
+                                                <span v-if="isSelectionCol(col.fields)">
+                                                    <v-checkbox @change="handleCheckAll"
+                                                                :indeterminate="indeterminate"
+                                                                v-model="isAllChecked"
+                                                                :show-slot="false"
+                                                                label="check-all"></v-checkbox>
+                                                </span>
+                                                <span v-else v-html="col.title"></span>
+                                                <span @click.stop="sortControl(col.fields[0])"
+                                                      class="v-table-sort-icon" v-if="enableSort(col.orderBy)">
+                                                    <i :class='["v-icon-up-dir",getCurrentSort(col.fields[0]) ==="asc" ? "checked":""]'></i>
+                                                    <i :class='["v-icon-down-dir",getCurrentSort(col.fields[0]) ==="desc" ? "checked":""]'></i>
+                                                </span>
                                             </span>
                                             <!--filters-->
-                                            <v-dropdown class="v-table-dropdown" v-if="enableFilters(col.filters)"
+                                            <v-dropdown class="v-table-dropdown" v-if="enableFilters(col.filters,col.fields)"
                                                         v-model="col.filters"
                                                         :show-operation="col.filterMultiple"
                                                         :is-multiple="col.filterMultiple"
                                                         @on-filter-method="filterEvent"
-                                                        @change="filterConditionChange(col.filterMultiple)"
-                                            >
-                                                 <i :class="['v-table-filter-icon',vTableFiltersIcon(col.filters)]"></i>
+                                                        @change="filterConditionChange(col.filterMultiple)">
+                                                <i :class="['v-table-filter-icon',vTableFiltersIcon(col.filters)]"></i>
                                             </v-dropdown>
-                                        </span>
-                                    </div>
-                                </td>
-                            </tr>
-                        </template>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+
+                            <template v-else>
+                                <tr class="v-table-header-row">
+                                    <td v-for="(col,colIndex) in noFrozenCols"
+                                        :class="[col.titleCellClassName]"
+                                        @mousemove.stop="handleTitleMouseMove($event,col.field)"
+                                        @mousedown.stop="handleTitleMouseDown($event)"
+                                        @mouseout.stop="handleTitleMouseOut()"
+                                        @click.stop="titleCellClick(col.field,col.title);"
+                                        @dblclick.stop="titleCellDblClick(col.field,col.title)">
+                                        <div :class="['v-table-title-cell',showVerticalBorder?'vertical-border':'',showHorizontalBorder?'horizontal-border':'']"
+                                             :style="{'width':col.width+'px','height':titleRowHeight+'px','text-align':col.titleAlign}">
+                                            <span class="table-title">
+                                                <span v-if="col.type === 'selection'">
+                                                    <v-checkbox @change="handleCheckAll"
+                                                                :indeterminate="indeterminate"
+                                                                v-model="isAllChecked"
+                                                                :show-slot="false"
+                                                                label="check-all"></v-checkbox>
+                                                </span>
+                                                <span v-else v-html="col.title"></span>
+                                                <span @click.stop="sortControl(col.field)"
+                                                      class="v-table-sort-icon"
+                                                      v-if="enableSort(col.orderBy)">
+                                                    <i :class='["v-icon-up-dir",getCurrentSort(col.field) ==="asc" ? "checked":""]'></i>
+                                                    <i :class='["v-icon-down-dir",getCurrentSort(col.field) ==="desc" ? "checked":""]'></i>
+                                                </span>
+                                                <!--filters-->
+                                                <v-dropdown class="v-table-dropdown" v-if="enableFilters(col.filters)"
+                                                            v-model="col.filters"
+                                                            :show-operation="col.filterMultiple"
+                                                            :is-multiple="col.filterMultiple"
+                                                            @on-filter-method="filterEvent"
+                                                            @change="filterConditionChange(col.filterMultiple)">
+                                                    <i :class="['v-table-filter-icon',vTableFiltersIcon(col.filters)]"></i>
+                                                </v-dropdown>
+                                            </span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
                         </tbody>
                     </table>
                 </div>
@@ -290,58 +277,57 @@
                 <v-checkbox-group v-model="checkboxGroupModel" @change="handleCheckGroupChange">
                     <table class="v-table-btable" cellspacing="0" cellpadding="0" border="0">
                         <tbody>
-                        <tr :key="rowIndex" v-for="(item,rowIndex) in internalTableData" class="v-table-row"
-                            :style="[trBgColor(rowIndex+1)]"
-                            @mouseenter.stop="handleMouseEnter(rowIndex)"
-                            @mouseleave.stop="handleMouseOut(rowIndex)"
-                        >
-                            <td v-if="cellMergeInit(rowIndex,col.field,item,false)"
-                                v-for="(col,colIndex) in noFrozenCols"
-                                :key="colIndex"
-                                :colSpan="setColRowSpan(rowIndex,col.field,item).colSpan"
-                                :rowSpan="setColRowSpan(rowIndex,col.field,item).rowSpan"
-                                :class="[setColumnCellClassName(rowIndex,col.field,item)]">
-                                <!--存在列合并-->
-                                <div v-if="isCellMergeRender(rowIndex,col.field,item)"
-                                     :class="['v-table-body-cell',showVerticalBorder ? 'vertical-border':'',showHorizontalBorder?'horizontal-border':'']"
-                                     :style="{'width':getRowWidthByColSpan(rowIndex,col.field,item)+'px','height': getRowHeightByRowSpan(rowIndex,col.field,item)+'px','line-height':getRowHeightByRowSpan(rowIndex,col.field,item)+'px','text-align':col.columnAlign}"
-                                     :title="col.overflowTitle ?  overflowTitle(item,rowIndex,col) :''"
-                                     @click.stop="rowCellClick(rowIndex,item,col);cellEditClick($event,col.isEdit,item,col.field,rowIndex)"
-                                     @dblclick.stop="rowCellDbClick(rowIndex,item,col)"
-                                >
-                                <span v-if="cellMergeContentType(rowIndex,col.field,item).isComponent">
-                                    <component :rowData="item" :field="col.field ? col.field : ''" :index="rowIndex"
-                                               :is="cellMerge(rowIndex,item,col.field).componentName"
-                                               @on-custom-comp="customCompFunc"></component>
-                                </span>
-                                    <span v-else v-html="cellMerge(rowIndex,item,col.field).content">
-                                </span>
-                                </div>
-                                <!--不存在列合并-->
-                                <div v-else
-                                     :class="['v-table-body-cell',showVerticalBorder ? 'vertical-border':'',showHorizontalBorder?'horizontal-border':'']"
-                                     :style="{'width':col.width+'px','height': rowHeight+'px','line-height':rowHeight+'px','text-align':col.columnAlign}"
-                                     :title="col.overflowTitle ?  overflowTitle(item,rowIndex,col) :''"
-                                     @click.stop="rowCellClick(rowIndex,item,col);cellEditClick($event,col.isEdit,item,col.field,rowIndex)"
-                                     @dblclick.stop="rowCellDbClick(rowIndex,item,col)"
-                                >
-                                <span v-if="typeof col.componentName ==='string' && col.componentName.length > 0">
-                                    <component :rowData="item" :field="col.field ? col.field : ''" :index="rowIndex"
-                                               :is="col.componentName" @on-custom-comp="customCompFunc"></component>
-                                </span>
-                                    <span v-else-if="typeof col.formatter==='function'"
-                                          v-html="col.formatter(item,rowIndex,pagingIndex,col.field)">
-                                </span>
-                                    <span v-else-if="col.type === 'selection'">
-                                        <v-checkbox @change="handleCheckChange(item)" :show-slot="false"
-                                                    :disabled="item._disabled" :label="rowIndex"></v-checkbox>
-                                </span>
-                                    <span v-else>
-                                     {{item[col.field]}}
-                                </span>
-                                </div>
-                            </td>
-                        </tr>
+                            <tr :key="rowIndex" v-for="(item,rowIndex) in internalTableData" class="v-table-row"
+                                :style="[trBgColor(rowIndex+1)]"
+                                @mouseenter.stop="handleMouseEnter(rowIndex)"
+                                @mouseleave.stop="handleMouseOut(rowIndex)">
+                                <td v-if="cellMergeInit(rowIndex,col.field,item,false)"
+                                    v-for="(col,colIndex) in noFrozenCols"
+                                    :key="colIndex"
+                                    :colSpan="setColRowSpan(rowIndex,col.field,item).colSpan"
+                                    :rowSpan="setColRowSpan(rowIndex,col.field,item).rowSpan"
+                                    :class="[setColumnCellClassName(rowIndex,col.field,item)]">
+                                    <!--存在列合并-->
+                                    <div v-if="isCellMergeRender(rowIndex,col.field,item)"
+                                         :class="['v-table-body-cell',showVerticalBorder ? 'vertical-border':'',showHorizontalBorder?'horizontal-border':'']"
+                                         :style="{'width':getRowWidthByColSpan(rowIndex,col.field,item)+'px','height': getRowHeightByRowSpan(rowIndex,col.field,item)+'px','line-height':getRowHeightByRowSpan(rowIndex,col.field,item)+'px','text-align':col.columnAlign}"
+                                         :title="col.overflowTitle ?  overflowTitle(item,rowIndex,col) :''"
+                                         @click.stop="rowCellClick(rowIndex,item,col);cellEditClick($event,col.isEdit,item,col.field,rowIndex)"
+                                         @dblclick.stop="rowCellDbClick(rowIndex,item,col)"
+                                         @contextmenu.prevent="rowContextmenu($event,rowIndex,item,col)">
+                                        <span v-if="cellMergeContentType(rowIndex,col.field,item).isComponent">
+                                            <component :rowData="item" :field="col.field ? col.field : ''" :index="rowIndex"
+                                                       :is="cellMerge(rowIndex,item,col.field).componentName"
+                                                       @on-custom-comp="customCompFunc"></component>
+                                        </span>
+                                        <span v-else v-html="cellMerge(rowIndex,item,col.field).content">
+                                        </span>
+                                    </div>
+                                    <!--不存在列合并-->
+                                    <div v-else
+                                         :class="['v-table-body-cell',showVerticalBorder ? 'vertical-border':'',showHorizontalBorder?'horizontal-border':'']"
+                                         :style="{'width':col.width+'px','height': rowHeight+'px','line-height':rowHeight+'px','text-align':col.columnAlign}"
+                                         :title="col.overflowTitle ?  overflowTitle(item,rowIndex,col) :''"
+                                         @click.stop="rowCellClick(rowIndex,item,col);cellEditClick($event,col.isEdit,item,col.field,rowIndex)"
+                                         @dblclick.stop="rowCellDbClick(rowIndex,item,col)"
+                                         @contextmenu.prevent="rowContextmenu($event,rowIndex,item,col)">
+                                        <span v-if="typeof col.componentName ==='string' && col.componentName.length > 0">
+                                            <component :rowData="item" :field="col.field ? col.field : ''" :index="rowIndex"
+                                                       :is="col.componentName" @on-custom-comp="customCompFunc"></component>
+                                        </span>
+                                        <span v-else-if="typeof col.formatter==='function'"
+                                              v-html="col.formatter(item,rowIndex,pagingIndex,col.field)">
+                                        </span>
+                                        <span v-else-if="col.type === 'selection'">
+                                            <v-checkbox @change="handleCheckChange(item)" :show-slot="false"
+                                                        :disabled="item._disabled" :label="rowIndex"></v-checkbox>
+                                        </span>
+                                        <span v-else>
+                                            {{item[col.field]}}
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </v-checkbox-group>
@@ -370,17 +356,14 @@
                      :content-height="errorContentHeight"
                      :title-height="getTotalColumnsHeight()"
                      :error-content="errorContent"
-                     :is-loading="isLoading"
-        ></table-empty>
+                     :is-loading="isLoading"></table-empty>
 
-        <loading
-                v-if="isLoading"
-                :loading-content="loadingContent"
-                :title-rows="internalTitleRows"
-                :title-row-height="titleRowHeight"
-                :columns="internalColumns"
-                :loading-opacity="loadingOpacity"
-        ></loading>
+        <loading v-if="isLoading"
+                 :loading-content="loadingContent"
+                 :title-rows="internalTitleRows"
+                 :title-row-height="titleRowHeight"
+                 :columns="internalColumns"
+                 :loading-opacity="loadingOpacity"></loading>
 
         <!--列拖动时的线条-->
         <div v-show="isDragging" class="v-table-drag-line"></div>
@@ -418,8 +401,8 @@
     export default {
         name: 'v-table',
         mixins: [classesMixin, tableResizeMixin, frozenColumnsMixin, scrollControlMixin, sortControlMixin, tableEmptyMixin, dragWidthMixin, cellEditMixin, bodyCellMergeMixin, titleCellMergeMixin, checkboxSelectionMixin, tableFooterMixin, scrollBarControlMixin, tableRowMouseEventsMixin, tableFiltersMixin],
-        components: {tableEmpty, loading, VCheckboxGroup, VCheckbox, VDropdown},
-        data(){
+        components: { tableEmpty, loading, VCheckboxGroup, VCheckbox, VDropdown },
+        data() {
             return {
                 // 本地列表数据
                 internalTableData: [],
@@ -591,6 +574,8 @@
             rowClick: Function,
             // 行双击回调
             rowDblclick: Function,
+            //zengyy: 行右击回调
+            rowContextmenu: Function,
             // 表头单元格单击回调
             titleClick: Function,
             // 表头单元格双击回调
@@ -615,19 +600,19 @@
         computed: {
 
             // 是否是复杂表头
-            isComplexTitle(){
+            isComplexTitle() {
 
                 return (Array.isArray(this.internalTitleRows) && this.internalTitleRows.length > 0);
             },
 
             // 获取表格高度
-            getTableHeight(){
+            getTableHeight() {
 
                 return this.isTableEmpty ? this.tableEmptyHeight : this.internalHeight;
             },
 
             // 左侧区域宽度
-            leftViewWidth(){
+            leftViewWidth() {
                 var result = 0
                 if (this.hasFrozenColumn) {
                     result = this.frozenCols.reduce((total, curr) => total + curr.width, 0);
@@ -635,7 +620,7 @@
                 return result
             },
             // 右侧区域宽度
-            rightViewWidth(){
+            rightViewWidth() {
 
                 let result = this.internalWidth - this.leftViewWidth;
 
@@ -643,7 +628,7 @@
             },
 
             // 左侧、右侧区域高度
-            bodyViewHeight(){
+            bodyViewHeight() {
                 var result;
                 if (this.internalTitleRows.length > 0) {
 
@@ -659,14 +644,14 @@
             },
 
             // 所有列的总宽度
-            totalColumnsWidth(){
+            totalColumnsWidth() {
                 return this.internalColumns.reduce(function (total, curr) {
                     return curr.width ? (total + curr.width) : total;
                 }, 0)
             },
 
             // 获取未固定列的总宽度
-            totalNoFrozenColumnsWidth(){
+            totalNoFrozenColumnsWidth() {
 
                 return this.noFrozenCols.reduce(function (total, curr) {
                     return curr.width ? (total + curr.width) : total;
@@ -674,21 +659,21 @@
             },
 
             // 获取所有的字段
-            getColumnsFields(){
+            getColumnsFields() {
                 return this.internalColumns.map((item) => {
                     return item.field;
                 })
             },
 
             // 获取非固定列的字段集合
-            getNoFrozenColumnsFields(){
+            getNoFrozenColumnsFields() {
                 return this.internalColumns.filter(x => !x.isFrozen).map((item) => {
                     return item.field;
                 })
             },
 
             // 获取固定列的字段集合
-            getFrozenColumnsFields(){
+            getFrozenColumnsFields() {
                 return this.internalColumns.filter(x => x.isFrozen).map((item) => {
                     return item.field;
                 })
@@ -696,26 +681,26 @@
         },
         methods: {
             // custom columns component event
-            customCompFunc(params){
+            customCompFunc(params) {
 
                 this.$emit('on-custom-comp', params);
             },
 
             // 行颜色
-            trBgColor(num){
+            trBgColor(num) {
                 if ((this.evenBgColor && this.evenBgColor.length > 0) || (this.oddBgColor && this.oddBgColor.length > 0)) {
-                    return num % 2 === 0 ? {'background-color': this.evenBgColor} : {'background-color': this.oddBgColor};
+                    return num % 2 === 0 ? { 'background-color': this.evenBgColor } : { 'background-color': this.oddBgColor };
                 }
             },
 
             // 设置 column 列的样式
-            setColumnCellClassName(rowIndex, field, rowData){
+            setColumnCellClassName(rowIndex, field, rowData) {
 
                 return this.columnCellClassName && this.columnCellClassName(rowIndex, field, rowData);
             },
 
             // 获取每个表头列的宽度
-            titleColumnWidth(fields){
+            titleColumnWidth(fields) {
                 var result = 0;
                 if (Array.isArray(fields)) {
                     var matchItems = this.internalColumns.filter((item, index) => {
@@ -730,7 +715,7 @@
             },
 
             // 获取每个表头列的高度
-            titleColumnHeight(rowspan){
+            titleColumnHeight(rowspan) {
                 if (rowspan && rowspan > 0) {
                     return this.titleRowHeight * rowspan;
                 } else {
@@ -739,7 +724,7 @@
             },
 
             // 超出的title提示
-            overflowTitle(row, rowIndex, col){
+            overflowTitle(row, rowIndex, col) {
 
                 var result = '';
                 if (typeof col.formatter === 'function') {
@@ -757,7 +742,7 @@
             },
 
             // 获取所有列的总高度
-            getTotalColumnsHeight(){
+            getTotalColumnsHeight() {
 
                 var titleTotalHeight = (this.internalTitleRows && this.internalTitleRows.length > 0) ? this.titleRowHeight * this.internalTitleRows.length : this.titleRowHeight;
 
@@ -768,14 +753,14 @@
 
 
             // 初始化width
-            initTableWidth(){
+            initTableWidth() {
 
                 this.internalWidth = this.isHorizontalResize ? this.maxWidth : this.width;
 
             },
 
             // 当宽度设置 && 非固定列未设置宽度时（列自适应）初始化列集合
-            initColumns(){
+            initColumns() {
 
                 this.internalHeight = this.height;
 
@@ -821,7 +806,7 @@
 
 
             // 当没设置宽度和高度时动态计算
-            initView(){
+            initView() {
 
                 // 当没有设置宽度计算总宽度
                 if (!(this.internalWidth && this.internalWidth > 0)) {
@@ -848,13 +833,13 @@
                 }
             },
 
-            initInternalTableData(){
+            initInternalTableData() {
 
                 return Array.isArray(this.tableData) ? deepClone(this.tableData) : [];
             },
 
             // 对外暴露（隐藏显示切换时）
-            resize(){
+            resize() {
                 // fixed bug in IE9 #17
                 this.resizeTimer = setTimeout(x => {
 
@@ -862,7 +847,7 @@
                 })
             }
         },
-        created(){
+        created() {
 
             this.internalTableData = this.initInternalTableData(this.tableData);
 
@@ -875,7 +860,7 @@
 
             this.initView();
         },
-        mounted(){
+        mounted() {
 
             this.setScrollbarWidth();
 
@@ -945,7 +930,7 @@
                 }
             }
         },
-        beforeDestroy(){
+        beforeDestroy() {
 
             clearTimeout(this.resizeTimer);
         }

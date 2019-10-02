@@ -143,7 +143,8 @@ export  default {
 
                 // 有横向滚动条
                 if (currentWidth <= this.initTotalColumnsWidth && !this.isTableEmpty) {
-
+                    // zengyy:表格在有纵向滚动条和没有的情况下高度不一致,所以注释以下代码
+                    /*
                     bottom2 -= this.verticalResizeOffset;
 
                     let differ = bottom2 - totalColumnsHeight;
@@ -157,7 +158,7 @@ export  default {
                     else if (differ > 0 && differ < scrollbarWidth) {
 
                         currentHeight += differ;
-                    }
+                    }*/
                 }
 
                 this.internalHeight = currentHeight;

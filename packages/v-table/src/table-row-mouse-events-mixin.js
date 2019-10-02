@@ -1,6 +1,6 @@
 export default {
 
-    data(){
+    data() {
 
         return {
 
@@ -12,7 +12,7 @@ export default {
     methods: {
 
 
-        handleMouseEnter(rowIndex){
+        handleMouseEnter(rowIndex) {
 
             if (this.rowHoverColor && this.rowHoverColor.length > 0) {
 
@@ -22,7 +22,7 @@ export default {
             this.rowMouseEnter && this.rowMouseEnter(rowIndex);
         },
 
-        handleMouseOut(rowIndex){
+        handleMouseOut(rowIndex) {
 
             if (this.rowHoverColor && this.rowHoverColor.length > 0) {
 
@@ -36,22 +36,22 @@ export default {
          * 表头单元格单击事件
          * 注意：如果为复杂表头，field 为数组
          * */
-        titleCellClick(field,title){
+        titleCellClick(field, title) {
 
-            this.titleClick && this.titleClick(title,field);
+            this.titleClick && this.titleClick(title, field);
         },
 
         /*
          * 表头单元格双击事件
          * 注意：如果为复杂表头，field 为数组
          * */
-        titleCellDblClick(field,title){
+        titleCellDblClick(field, title) {
 
-            this.titleDblclick && this.titleDblclick(title,field);
+            this.titleDblclick && this.titleDblclick(title, field);
         },
 
         // 行单击事件
-        rowCellClick(rowIndex, rowData, column){
+        rowCellClick(rowIndex, rowData, column) {
             if (this.rowClickColor && this.rowClickColor.length > 0) {
 
                 this.clickRowIndex = rowIndex;
@@ -61,15 +61,18 @@ export default {
         },
 
         // 行双击事件
-        rowCellDbClick(rowIndex, rowData, column){
+        rowCellDbClick(rowIndex, rowData, column) {
 
             this.rowDblclick && this.rowDblclick(rowIndex, rowData, column);
         },
-
+        //zengyy:增加行点击右键事件
+        rowCellContextmenu(event, rowIndex, rowData, column) {
+            this.rowContextmenu && this.rowContextmenu(event, rowIndex, rowData, column);
+        },
         /*
          * @method getHighPriorityBgColor 获取高优先级的行背景色 优先级 click color > hover color > 奇偶color > table bg color
          * */
-        getHighPriorityBgColor(rowIndex){
+        getHighPriorityBgColor(rowIndex) {
 
             var result = '';
 
@@ -98,7 +101,7 @@ export default {
             return result;
         },
 
-        setRowBgColor(newVal, oldVal, color){
+        setRowBgColor(newVal, oldVal, color) {
 
             let el = this.$el;
 
@@ -134,7 +137,7 @@ export default {
         },
 
         // 取消当前选中的行
-        clearCurrentRow(){
+        clearCurrentRow() {
 
             this.clickRowIndex = -1;
         }
