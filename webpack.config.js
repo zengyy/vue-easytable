@@ -229,7 +229,8 @@ module.exports = function (env) {
 
         devServer = {
             hot: true, // 告诉 dev-server 我们在使用 HMR
-            contentBase: path.join(__dirname, SETTINGS.path.outputPath, SETTINGS.outputFolderName),
+            //contentBase: path.join(__dirname, SETTINGS.path.outputPath, SETTINGS.outputFolderName),
+            contentBase: "./demo",
             publicPath: SETTINGS.path.publicPath,
             port: SETTINGS.visitPort,
             compress: true,

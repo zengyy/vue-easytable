@@ -72,6 +72,7 @@
   "scripts": {
     "build": "webpack --env.build",
     "dev": "webpack-dev-server --env.dev",
+    "demo": "webpack-dev-server --env.dev",
     "build:remove": "node build/build-remove.js",
     "build:js": "node build/build-js.js",
     "build:copy": "node build/build-copy-files.js",

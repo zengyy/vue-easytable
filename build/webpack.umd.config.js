@@ -100,17 +100,17 @@ module.exports = function (env) {
             verbose: true, // Write logs to console.
             dry: false, // Do not delete anything, good for testing.
         }),
-        new webpack.optimize.UglifyJsPlugin({ // js、css都会压缩
-            mangle: {
-                except: ['exports', 'require', 'module']
-            },
-            compress: {
-                warnings: false
-            },
-            output: {
-                comments: false,
-            }
-        }),
+        //new webpack.optimize.UglifyJsPlugin({ // js、css都会压缩
+        //    mangle: {
+        //        except: ['exports', 'require', 'module']
+        //    },
+        //    compress: {
+        //        warnings: false
+        //    },
+        //    output: {
+        //        comments: false,
+        //    }
+        //}),
         new ExtractTextPlugin('css/index.css')
 
     ];

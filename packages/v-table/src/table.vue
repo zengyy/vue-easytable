@@ -10,12 +10,12 @@
                     <div class="v-table-header-inner" style="display: block;">
                         <table class="v-table-htable" border="0" cellspacing="0" cellpadding="0">
                             <tbody>
-
                                 <template v-if="frozenTitleCols.length > 0">
                                     <tr v-for="row in frozenTitleCols">
                                         <td v-for="col in row"
                                             :class="[col.titleCellClassName]"
-                                            :colspan="col.colspan" :rowspan="col.rowspan"
+                                            :colspan="col.colspan"
+                                            :rowspan="col.rowspan"
                                             @mousemove.stop="handleTitleMouseMove($event,col.fields)"
                                             @mousedown.stop="handleTitleMouseDown($event)"
                                             @mouseout.stop="handleTitleMouseOut()"
@@ -33,13 +33,15 @@
                                                     </span>
                                                     <span v-else v-html="col.title"></span>
                                                     <span @click.stop="sortControl(col.fields[0])"
-                                                          class="v-table-sort-icon" v-if="enableSort(col.orderBy)">
-                                                        <i :class='["v-icon-up-dir",getCurrentSort(col.fields[0]) ==="asc" ? "checked":""]'></i>
-                                                        <i :class='["v-icon-down-dir",getCurrentSort(col.fields[0]) ==="desc" ? "checked":""]'></i>
+                                                          class="v-table-sort-icon"
+                                                          v-if="enableSort(col.orderBy)">
+                                                        <i :class='["v-icon-up-dir",getCurrentSort(col.fields[0])==="asc" ? "checked" :""]'></i>
+                                                        <i :class='["v-icon-down-dir",getCurrentSort(col.fields[0])==="desc" ? "checked" :""]'></i>
                                                     </span>
                                                 </span>
                                                 <!--filters-->
-                                                <v-dropdown class="v-table-dropdown" v-if="enableFilters(col.filters,col.fields)"
+                                                <v-dropdown class="v-table-dropdown"
+                                                            v-if="enableFilters(col.filters,col.fields)"
                                                             v-model="col.filters"
                                                             :show-operation="col.filterMultiple"
                                                             :is-multiple="col.filterMultiple"
@@ -73,13 +75,15 @@
                                                     </span>
                                                     <span v-else v-html="col.title"></span>
                                                     <span @click.stop="sortControl(col.field)"
-                                                          class="v-table-sort-icon" v-if="enableSort(col.orderBy)">
-                                                        <i :class='["v-icon-up-dir",getCurrentSort(col.field) ==="asc" ? "checked":""]'></i>
-                                                        <i :class='["v-icon-down-dir",getCurrentSort(col.field) ==="desc" ? "checked":""]'></i>
+                                                          class="v-table-sort-icon"
+                                                          v-if="enableSort(col.orderBy)">
+                                                        <i :class='["v-icon-up-dir",getCurrentSort(col.field)==="asc" ? "checked" :""]'></i>
+                                                        <i :class='["v-icon-down-dir",getCurrentSort(col.field)==="desc" ? "checked" :""]'></i>
                                                     </span>
                                                 </span>
                                                 <!--filters-->
-                                                <v-dropdown class="v-table-dropdown" v-if="enableFilters(col.filters)"
+                                                <v-dropdown class="v-table-dropdown"
+                                                            v-if="enableFilters(col.filters)"
                                                             v-model="col.filters"
                                                             :show-operation="col.filterMultiple"
                                                             :is-multiple="col.filterMultiple"
@@ -102,7 +106,8 @@
                         <v-checkbox-group v-model="checkboxGroupModel" @change="handleCheckGroupChange">
                             <table class="v-table-btable" cellspacing="0" cellpadding="0" border="0">
                                 <tbody>
-                                    <tr v-for="(item,rowIndex) in internalTableData" class="v-table-row"
+                                    <tr v-for="(item,rowIndex) in internalTableData"
+                                        class="v-table-row"
                                         :style="[trBgColor(rowIndex+1)]"
                                         @mouseenter.stop="handleMouseEnter(rowIndex)"
                                         @mouseleave.stop="handleMouseOut(rowIndex)">
@@ -121,7 +126,8 @@
                                                  @dblclick.stop="rowCellDbClick(rowIndex,item,col)"
                                                  @contextmenu.prevent="rowContextmenu($event,rowIndex,item,col)">
                                                 <span v-if="cellMergeContentType(rowIndex,col.field,item).isComponent">
-                                                    <component :rowData="item" :field="col.field ? col.field : ''"
+                                                    <component :rowData="item"
+                                                               :field="col.field ? col.field : ''"
                                                                :index="rowIndex"
                                                                :is="cellMerge(rowIndex,item,col.field).componentName"
                                                                @on-custom-comp="customCompFunc"></component>
@@ -137,19 +143,21 @@
                                                  @dblclick.stop="rowCellDbClick(rowIndex,item,col)"
                                                  @contextmenu.prevent="rowContextmenu($event,rowIndex,item,col)">
                                                 <span v-if="typeof col.componentName ==='string' && col.componentName.length > 0">
-                                                    <component :rowData="item" :field="col.field ? col.field : ''"
-                                                               :index="rowIndex" :is="col.componentName"
+                                                    <component :rowData="item"
+                                                               :field="col.field ? col.field : ''"
+                                                               :index="rowIndex"
+                                                               :is="col.componentName"
                                                                @on-custom-comp="customCompFunc"></component>
                                                 </span>
                                                 <span v-else-if="typeof col.formatter==='function'"
                                                       v-html="col.formatter(item,rowIndex,pagingIndex,col.field)"></span>
                                                 <span v-else-if="col.type === 'selection'">
-                                                    <v-checkbox @change="handleCheckChange(item)" :show-slot="false"
-                                                                :disabled="item._disabled" :label="rowIndex"></v-checkbox>
+                                                    <v-checkbox @change="handleCheckChange(item)"
+                                                                :show-slot="false"
+                                                                :disabled="item._disabled"
+                                                                :label="rowIndex"></v-checkbox>
                                                 </span>
-                                                <span v-else>
-                                                    {{item[col.field]}}
-                                                </span>
+                                                <span v-else>{{item[col.field]}}</span>
                                             </div>
                                         </td>
                                     </tr>
@@ -177,20 +185,19 @@
             </div>
         </template>
         <!--右列-->
-        <div class="v-table-rightview"
-             :style="{'width': rightViewWidth+'px'}">
+        <div class="v-table-rightview" :style="{'width': rightViewWidth+'px'}">
             <!--右列头-->
             <div class="v-table-header v-table-title-class"
                  :style="{'width': (rightViewWidth-1)+'px','background-color':titleBgColor}">
                 <div class="v-table-header-inner" style="display: block;">
                     <table class="v-table-htable" border="0" cellspacing="0" cellpadding="0">
                         <tbody>
-
                             <template v-if="noFrozenTitleCols.length > 0">
                                 <tr v-for="row in noFrozenTitleCols">
                                     <td v-for="col in row"
                                         :class="[col.titleCellClassName]"
-                                        :colspan="col.colspan" :rowspan="col.rowspan"
+                                        :colspan="col.colspan"
+                                        :rowspan="col.rowspan"
                                         @mousemove.stop="handleTitleMouseMove($event,col.fields)"
                                         @mousedown.stop="handleTitleMouseDown($event)"
                                         @mouseout.stop="handleTitleMouseOut()"
@@ -208,13 +215,15 @@
                                                 </span>
                                                 <span v-else v-html="col.title"></span>
                                                 <span @click.stop="sortControl(col.fields[0])"
-                                                      class="v-table-sort-icon" v-if="enableSort(col.orderBy)">
-                                                    <i :class='["v-icon-up-dir",getCurrentSort(col.fields[0]) ==="asc" ? "checked":""]'></i>
-                                                    <i :class='["v-icon-down-dir",getCurrentSort(col.fields[0]) ==="desc" ? "checked":""]'></i>
+                                                      class="v-table-sort-icon"
+                                                      v-if="enableSort(col.orderBy)">
+                                                    <i :class='["v-icon-up-dir",getCurrentSort(col.fields[0])==="asc" ? "checked" :""]'></i>
+                                                    <i :class='["v-icon-down-dir",getCurrentSort(col.fields[0])==="desc" ? "checked" :""]'></i>
                                                 </span>
                                             </span>
                                             <!--filters-->
-                                            <v-dropdown class="v-table-dropdown" v-if="enableFilters(col.filters,col.fields)"
+                                            <v-dropdown class="v-table-dropdown"
+                                                        v-if="enableFilters(col.filters,col.fields)"
                                                         v-model="col.filters"
                                                         :show-operation="col.filterMultiple"
                                                         :is-multiple="col.filterMultiple"
@@ -250,11 +259,12 @@
                                                 <span @click.stop="sortControl(col.field)"
                                                       class="v-table-sort-icon"
                                                       v-if="enableSort(col.orderBy)">
-                                                    <i :class='["v-icon-up-dir",getCurrentSort(col.field) ==="asc" ? "checked":""]'></i>
-                                                    <i :class='["v-icon-down-dir",getCurrentSort(col.field) ==="desc" ? "checked":""]'></i>
+                                                    <i :class='["v-icon-up-dir",getCurrentSort(col.field)==="asc" ? "checked" :""]'></i>
+                                                    <i :class='["v-icon-down-dir",getCurrentSort(col.field)==="desc" ? "checked" :""]'></i>
                                                 </span>
                                                 <!--filters-->
-                                                <v-dropdown class="v-table-dropdown" v-if="enableFilters(col.filters)"
+                                                <v-dropdown class="v-table-dropdown"
+                                                            v-if="enableFilters(col.filters)"
                                                             v-model="col.filters"
                                                             :show-operation="col.filterMultiple"
                                                             :is-multiple="col.filterMultiple"
@@ -277,8 +287,11 @@
                 <v-checkbox-group v-model="checkboxGroupModel" @change="handleCheckGroupChange">
                     <table class="v-table-btable" cellspacing="0" cellpadding="0" border="0">
                         <tbody>
-                            <tr :key="rowIndex" v-for="(item,rowIndex) in internalTableData" class="v-table-row"
+                            <tr :key="rowIndex"
+                                v-for="(item,rowIndex) in internalTableData"
+                                class="v-table-row"
                                 :style="[trBgColor(rowIndex+1)]"
+                                v-show="item['_hide']!==true"
                                 @mouseenter.stop="handleMouseEnter(rowIndex)"
                                 @mouseleave.stop="handleMouseOut(rowIndex)">
                                 <td v-if="cellMergeInit(rowIndex,col.field,item,false)"
@@ -296,12 +309,13 @@
                                          @dblclick.stop="rowCellDbClick(rowIndex,item,col)"
                                          @contextmenu.prevent="rowContextmenu($event,rowIndex,item,col)">
                                         <span v-if="cellMergeContentType(rowIndex,col.field,item).isComponent">
-                                            <component :rowData="item" :field="col.field ? col.field : ''" :index="rowIndex"
+                                            <component :rowData="item"
+                                                       :field="col.field ? col.field : ''"
+                                                       :index="rowIndex"
                                                        :is="cellMerge(rowIndex,item,col.field).componentName"
                                                        @on-custom-comp="customCompFunc"></component>
                                         </span>
-                                        <span v-else v-html="cellMerge(rowIndex,item,col.field).content">
-                                        </span>
+                                        <span v-else v-html="cellMerge(rowIndex,item,col.field).content"></span>
                                     </div>
                                     <!--不存在列合并-->
                                     <div v-else
@@ -312,19 +326,34 @@
                                          @dblclick.stop="rowCellDbClick(rowIndex,item,col)"
                                          @contextmenu.prevent="rowContextmenu($event,rowIndex,item,col)">
                                         <span v-if="typeof col.componentName ==='string' && col.componentName.length > 0">
-                                            <component :rowData="item" :field="col.field ? col.field : ''" :index="rowIndex"
-                                                       :is="col.componentName" @on-custom-comp="customCompFunc"></component>
+                                            <component :rowData="item"
+                                                       :field="col.field ? col.field : ''"
+                                                       :index="rowIndex"
+                                                       :is="col.componentName"
+                                                       @on-custom-comp="customCompFunc"></component>
+                                        </span>
+                                        <v-treeitem v-else-if="col.type==='treeitem'"
+                                                    :row-index="rowIndex"
+                                                    :level="item['_level']"
+                                                    v-model="item['_expand']"
+                                                    :has-child="internalTableData[rowIndex+1]&&internalTableData[rowIndex+1]['_level']>item['_level']"
+                                                    @toggle="onRowToggle">
+                                            {{item[col.field]}}
+                                        </v-treeitem>
+                                        <span v-else-if="col.type==='action'">
+                                            <a v-for="btn in col.buttons"
+                                               @click="onRowButtonClick(btn.key,item)"
+                                               class="operation">{{btn.name}}</a>
                                         </span>
                                         <span v-else-if="typeof col.formatter==='function'"
-                                              v-html="col.formatter(item,rowIndex,pagingIndex,col.field)">
-                                        </span>
+                                              v-html="col.formatter(item,rowIndex,pagingIndex,col.field)"></span>
                                         <span v-else-if="col.type === 'selection'">
-                                            <v-checkbox @change="handleCheckChange(item)" :show-slot="false"
-                                                        :disabled="item._disabled" :label="rowIndex"></v-checkbox>
+                                            <v-checkbox @change="handleCheckChange(item)"
+                                                        :show-slot="false"
+                                                        :disabled="item._disabled"
+                                                        :label="rowIndex"></v-checkbox>
                                         </span>
-                                        <span v-else>
-                                            {{item[col.field]}}
-                                        </span>
+                                        <span v-else>{{item[col.field]}}</span>
                                     </div>
                                 </td>
                             </tr>
@@ -371,36 +400,50 @@
 </template>
 
 <script>
+    import classesMixin from "./classes-mixin.js";
+    import scrollControlMixin from "./scroll-control-mixin.js";
+    import frozenColumnsMixin from "./frozen-columns-mixin.js";
+    import tableResizeMixin from "./table-resize-mixin.js";
+    import sortControlMixin from "./sort-control-mixin.js";
+    import tableEmptyMixin from "./table-empty-mixin.js";
+    import dragWidthMixin from "./drag-width-mixin.js";
+    import cellEditMixin from "./cell-edit-mixin.js";
+    import bodyCellMergeMixin from "./body-cell-merge-mixin.js";
+    import titleCellMergeMixin from "./title-cell-merge-mixin.js";
+    import checkboxSelectionMixin from "./checkbox-selection-mixin.js";
+    import tableFooterMixin from "./table-footer-mixin.js";
+    import scrollBarControlMixin from "./scroll-bar-control-mixin.js";
+    import tableRowMouseEventsMixin from "./table-row-mouse-events-mixin";
+    import tableFiltersMixin from "./table-filters-mixin";
 
-    import classesMixin from './classes-mixin.js'
-    import scrollControlMixin from './scroll-control-mixin.js'
-    import frozenColumnsMixin from './frozen-columns-mixin.js'
-    import tableResizeMixin from './table-resize-mixin.js'
-    import sortControlMixin from './sort-control-mixin.js'
-    import tableEmptyMixin from './table-empty-mixin.js'
-    import dragWidthMixin from './drag-width-mixin.js'
-    import cellEditMixin from './cell-edit-mixin.js'
-    import bodyCellMergeMixin from './body-cell-merge-mixin.js'
-    import titleCellMergeMixin from './title-cell-merge-mixin.js'
-    import checkboxSelectionMixin from './checkbox-selection-mixin.js'
-    import tableFooterMixin from './table-footer-mixin.js'
-    import scrollBarControlMixin from './scroll-bar-control-mixin.js'
-    import tableRowMouseEventsMixin from './table-row-mouse-events-mixin'
-    import tableFiltersMixin from './table-filters-mixin'
+    import utils from "../../src/utils/utils.js";
+    import deepClone from "../../src/utils/deepClone.js";
 
-    import utils from '../../src/utils/utils.js'
-    import deepClone from '../../src/utils/deepClone.js'
-
-    import tableEmpty from './table-empty.vue'
-    import loading from './loading.vue'
-    import VCheckboxGroup from '../../v-checkbox-group/index.js'
-    import VCheckbox from '../../v-checkbox/index.js'
-    import VDropdown from '../../v-dropdown/index.js'
-
+    import tableEmpty from "./table-empty.vue";
+    import loading from "./loading.vue";
+    import VCheckboxGroup from "../../v-checkbox-group/index.js";
+    import VCheckbox from "../../v-checkbox/index.js";
+    import VDropdown from "../../v-dropdown/index.js";
 
     export default {
-        name: 'v-table',
-        mixins: [classesMixin, tableResizeMixin, frozenColumnsMixin, scrollControlMixin, sortControlMixin, tableEmptyMixin, dragWidthMixin, cellEditMixin, bodyCellMergeMixin, titleCellMergeMixin, checkboxSelectionMixin, tableFooterMixin, scrollBarControlMixin, tableRowMouseEventsMixin, tableFiltersMixin],
+        name: "v-table",
+        mixins: [
+            classesMixin,
+            tableResizeMixin,
+            frozenColumnsMixin,
+            scrollControlMixin,
+            sortControlMixin,
+            tableEmptyMixin,
+            dragWidthMixin,
+            cellEditMixin,
+            bodyCellMergeMixin,
+            titleCellMergeMixin,
+            checkboxSelectionMixin,
+            tableFooterMixin,
+            scrollBarControlMixin,
+            tableRowMouseEventsMixin,
+            tableFiltersMixin
+        ],
         components: { tableEmpty, loading, VCheckboxGroup, VCheckbox, VDropdown },
         data() {
             return {
@@ -414,12 +457,12 @@
                 internalColumns: [],
                 // 本地复杂表头数据
                 internalTitleRows: [],
-                errorMsg: ' V-Table error: ',
+                errorMsg: " V-Table error: ",
                 // 最大宽度（当width:'max'时）
                 maxWidth: 5000,
-                hasFrozenColumn: false,// 是否拥有固定列（false时最后一列的右边border无边框）
+                hasFrozenColumn: false, // 是否拥有固定列（false时最后一列的右边border无边框）
                 resizeTimer: null
-            }
+            };
         },
         props: {
             width: [Number, String],
@@ -458,24 +501,24 @@
 
             tableBgColor: {
                 type: String,
-                default: '#fff'
+                default: "#fff"
             },
 
             // 表头背景颜色
             titleBgColor: {
                 type: String,
-                default: '#fff'
+                default: "#fff"
             },
 
             // 奇数行颜色
             oddBgColor: {
                 type: String,
-                default: ''
+                default: ""
             },
             // 偶数行颜色
             evenBgColor: {
                 type: String,
-                default: ''
+                default: ""
             },
             // 内容行高
             rowHeight: {
@@ -502,14 +545,14 @@
                 type: Array,
                 require: true,
                 default: function () {
-                    return []
+                    return [];
                 }
             },
             tableData: {
                 type: Array,
                 require: true,
                 default: function () {
-                    return []
+                    return [];
                 }
             },
             // 分页序号
@@ -517,7 +560,7 @@
             // 没数据时的html
             errorContent: {
                 type: String,
-                default: '暂无数据'
+                default: "暂无数据"
             },
             // 没数据时内容区域高度
             errorContentHeight: {
@@ -531,7 +574,8 @@
             },
             loadingContent: {
                 type: String,
-                default: '<span><i class="v-icon-spin5 animate-loading-23" style="font-size: 28px;opacity:0.6;"></i></span>'
+                default:
+                    '<span><i class="v-icon-spin5 animate-loading-23" style="font-size: 28px;opacity:0.6;"></i></span>'
             },
             // 不设置则没有hover效果
             rowHoverColor: {
@@ -551,7 +595,7 @@
             footer: {
                 type: Array,
                 default: function () {
-                    return []
+                    return [];
                 }
             },
             footerRowHeight: {
@@ -598,30 +642,29 @@
             filterMethod: Function
         },
         computed: {
-
             // 是否是复杂表头
             isComplexTitle() {
-
-                return (Array.isArray(this.internalTitleRows) && this.internalTitleRows.length > 0);
+                return (
+                    Array.isArray(this.internalTitleRows) &&
+                    this.internalTitleRows.length > 0
+                );
             },
 
             // 获取表格高度
             getTableHeight() {
-
                 return this.isTableEmpty ? this.tableEmptyHeight : this.internalHeight;
             },
 
             // 左侧区域宽度
             leftViewWidth() {
-                var result = 0
+                var result = 0;
                 if (this.hasFrozenColumn) {
                     result = this.frozenCols.reduce((total, curr) => total + curr.width, 0);
                 }
-                return result
+                return result;
             },
             // 右侧区域宽度
             rightViewWidth() {
-
                 let result = this.internalWidth - this.leftViewWidth;
 
                 return this.hasFrozenColumn ? result - 2 : result;
@@ -631,14 +674,16 @@
             bodyViewHeight() {
                 var result;
                 if (this.internalTitleRows.length > 0) {
-
-                    result = this.internalHeight - this.titleRowHeight * (this.internalTitleRows.length + this.getTitleRowspanTotalCount);
+                    result =
+                        this.internalHeight -
+                        this.titleRowHeight *
+                        (this.internalTitleRows.length + this.getTitleRowspanTotalCount);
                 } else {
                     result = this.internalHeight - this.titleRowHeight;
                 }
 
                 // 1px: 当有滚动条时，使滚动条显示全
-                result -= (this.footerTotalHeight + 1);
+                result -= this.footerTotalHeight + 1;
 
                 return result;
             },
@@ -646,57 +691,66 @@
             // 所有列的总宽度
             totalColumnsWidth() {
                 return this.internalColumns.reduce(function (total, curr) {
-                    return curr.width ? (total + curr.width) : total;
-                }, 0)
+                    return curr.width ? total + curr.width : total;
+                }, 0);
             },
 
             // 获取未固定列的总宽度
             totalNoFrozenColumnsWidth() {
-
                 return this.noFrozenCols.reduce(function (total, curr) {
-                    return curr.width ? (total + curr.width) : total;
-                }, 0)
+                    return curr.width ? total + curr.width : total;
+                }, 0);
             },
 
             // 获取所有的字段
             getColumnsFields() {
-                return this.internalColumns.map((item) => {
+                return this.internalColumns.map(item => {
                     return item.field;
-                })
+                });
             },
 
             // 获取非固定列的字段集合
             getNoFrozenColumnsFields() {
-                return this.internalColumns.filter(x => !x.isFrozen).map((item) => {
-                    return item.field;
-                })
+                return this.internalColumns
+                    .filter(x => !x.isFrozen)
+                    .map(item => {
+                        return item.field;
+                    });
             },
 
             // 获取固定列的字段集合
             getFrozenColumnsFields() {
-                return this.internalColumns.filter(x => x.isFrozen).map((item) => {
-                    return item.field;
-                })
+                return this.internalColumns
+                    .filter(x => x.isFrozen)
+                    .map(item => {
+                        return item.field;
+                    });
             }
         },
         methods: {
             // custom columns component event
             customCompFunc(params) {
-
-                this.$emit('on-custom-comp', params);
+                this.$emit("on-custom-comp", params);
             },
 
             // 行颜色
             trBgColor(num) {
-                if ((this.evenBgColor && this.evenBgColor.length > 0) || (this.oddBgColor && this.oddBgColor.length > 0)) {
-                    return num % 2 === 0 ? { 'background-color': this.evenBgColor } : { 'background-color': this.oddBgColor };
+                if (
+                    (this.evenBgColor && this.evenBgColor.length > 0) ||
+                    (this.oddBgColor && this.oddBgColor.length > 0)
+                ) {
+                    return num % 2 === 0
+                        ? { "background-color": this.evenBgColor }
+                        : { "background-color": this.oddBgColor };
                 }
             },
 
             // 设置 column 列的样式
             setColumnCellClassName(rowIndex, field, rowData) {
-
-                return this.columnCellClassName && this.columnCellClassName(rowIndex, field, rowData);
+                return (
+                    this.columnCellClassName &&
+                    this.columnCellClassName(rowIndex, field, rowData)
+                );
             },
 
             // 获取每个表头列的宽度
@@ -705,11 +759,13 @@
                 if (Array.isArray(fields)) {
                     var matchItems = this.internalColumns.filter((item, index) => {
                         return fields.some(x => x === item.field);
-                    })
+                    });
 
                     result = matchItems.reduce((total, curr) => total + curr.width, 0);
                 } else {
-                    console.error(this.errorMsg + 'the fields attribute must be a array in titleRows')
+                    console.error(
+                        this.errorMsg + "the fields attribute must be a array in titleRows"
+                    );
                 }
                 return result;
             },
@@ -725,13 +781,12 @@
 
             // 超出的title提示
             overflowTitle(row, rowIndex, col) {
-
-                var result = '';
-                if (typeof col.formatter === 'function') {
+                var result = "";
+                if (typeof col.formatter === "function") {
                     var val = col.formatter(row, rowIndex, this.pagingIndex, col.field);
                     // 如果是html 不处理
                     if (utils.isHtml(val)) {
-                        result = '';
+                        result = "";
                     } else {
                         result = val;
                     }
@@ -743,32 +798,36 @@
 
             // 获取所有列的总高度
             getTotalColumnsHeight() {
-
-                var titleTotalHeight = (this.internalTitleRows && this.internalTitleRows.length > 0) ? this.titleRowHeight * this.internalTitleRows.length : this.titleRowHeight;
+                var titleTotalHeight =
+                    this.internalTitleRows && this.internalTitleRows.length > 0
+                        ? this.titleRowHeight * this.internalTitleRows.length
+                        : this.titleRowHeight;
 
                 titleTotalHeight += this.footerTotalHeight;
 
-                return titleTotalHeight + this.internalTableData.length * this.rowHeight + 1;
+                return (
+                    titleTotalHeight + this.internalTableData.length * this.rowHeight + 1
+                );
             },
-
 
             // 初始化width
             initTableWidth() {
-
                 this.internalWidth = this.isHorizontalResize ? this.maxWidth : this.width;
-
             },
 
             // 当宽度设置 && 非固定列未设置宽度时（列自适应）初始化列集合
             initColumns() {
-
                 this.internalHeight = this.height;
 
                 this.footerTotalHeight = this.getFooterTotalRowHeight;
 
-                this.internalColumns = Array.isArray(this.columns) ? deepClone(this.columns) : [];
+                this.internalColumns = Array.isArray(this.columns)
+                    ? deepClone(this.columns)
+                    : [];
 
-                this.internalTitleRows = Array.isArray(this.titleRows) ? deepClone(this.titleRows) : [];
+                this.internalTitleRows = Array.isArray(this.titleRows)
+                    ? deepClone(this.titleRows)
+                    : [];
 
                 this.initColumnsFilters();
 
@@ -780,61 +839,58 @@
 
                 this.setSortColumns();
 
-
-                var self = this, widthCountCheck = 0;
+                var self = this,
+                    widthCountCheck = 0;
 
                 if (self.internalWidth && self.internalWidth > 0) {
                     self.internalColumns.map(function (item) {
                         if (!(item.width && item.width > 0)) {
-
                             widthCountCheck++;
                             if (self.isHorizontalResize) {
-                                console.error(self.errorMsg + "If you are using the isHorizontalResize property,Please set the value for each column's width");
+                                console.error(
+                                    self.errorMsg +
+                                    "If you are using the isHorizontalResize property,Please set the value for each column's width"
+                                );
                             } else {
                                 item.width = self.internalWidth - self.totalColumnsWidth;
                             }
-
                         }
-                    })
+                    });
                 }
 
                 if (widthCountCheck > 1) {
-                    console.error(this.errorMsg + 'Only allow one column is not set width');
+                    console.error(this.errorMsg + "Only allow one column is not set width");
                 }
-
             },
-
 
             // 当没设置宽度和高度时动态计算
             initView() {
-
                 // 当没有设置宽度计算总宽度
                 if (!(this.internalWidth && this.internalWidth > 0)) {
-
                     if (this.columns && this.columns.length > 0) {
-                        this.internalWidth = this.columns.reduce((total, curr) => total + curr.width, 0);
-
+                        this.internalWidth = this.columns.reduce(
+                            (total, curr) => total + curr.width,
+                            0
+                        );
                     }
                 }
 
                 var totalColumnsHeight = this.getTotalColumnsHeight();
 
                 // 当没有设置高度时计算总高度 || 设置的高度大于所有列高度之和时
-                if (!(this.height && this.height > 0) || this.height > totalColumnsHeight) {
-
+                if (
+                    !(this.height && this.height > 0) ||
+                    this.height > totalColumnsHeight
+                ) {
                     if (!this.isVerticalResize) {
-
                         this.internalHeight = totalColumnsHeight;
                     }
-
                 } else if (this.height <= totalColumnsHeight) {
-
                     this.internalHeight = this.height;
                 }
             },
 
             initInternalTableData() {
-
                 return Array.isArray(this.tableData) ? deepClone(this.tableData) : [];
             },
 
@@ -842,17 +898,66 @@
             resize() {
                 // fixed bug in IE9 #17
                 this.resizeTimer = setTimeout(x => {
-
                     this.tableResize();
-                })
+                });
+            },
+            // 展开/折叠行(用于树形表)
+            onRowToggle: function (rowIndex, expand) {
+                // 通过根据expand设置子孙节点的_hide来控制行的隐藏和显示
+                var curLevel = this.tableData[rowIndex]["_level"];
+                this.tableData[rowIndex]["_expand"] = expand;
+                for (var i = rowIndex + 1; i < this.tableData.length; i++) {
+                    let row = this.tableData[i];
+                    if (row["_level"] <= curLevel) {
+                        break;
+                    } else if (row["_level"] == curLevel + 1) {
+                        // 子节点
+                        this.$set(row, "_hide", !expand);
+                    } else {
+                        // 孙节点
+                        this.$set(row, "_hide", expand ? !row["_parent"]["_expand"] : true);
+                    }
+                }
+            },
+            // 选中行
+            selectRow: function (rowIndex) {
+                var curLevel = this.tableData[rowIndex]["_level"];
+                if (curLevel != null) {
+                    // 当前往后遍历
+                    for (let i = rowIndex; i < this.tableData.length; i++) {
+                        let row = this.tableData[i];
+                        if (row["_level"] == curLevel) {
+                            // 同级节点都显示出来
+                            this.$set(row, "_hide", false);
+                        } else if (row["_level"] < curLevel) {
+                            break;
+                        }
+                    }
+                    // 往前遍历
+                    for (let i = rowIndex - 1; i >= 0; i--) {
+                        let row = this.tableData[i];
+                        if (row["_level"] == curLevel) {
+                            // 同级节点都显示出来
+                            this.$set(row, "_hide", false);
+                        } else if (row["_level"] < curLevel) {
+                            // 遇到父节点则调用selectRow,往上递归
+                            this.selectRow(i);
+                            break;
+                        }
+                    }
+                    this.tableData[rowIndex]["_expand"] = true;
+                }
+
+                this.clickRowIndex = rowIndex;
+            },
+            onRowButtonClick: function (key, row) {
+                this.$emit("on-row-button-click", key, row);
             }
         },
         created() {
-
             this.internalTableData = this.initInternalTableData(this.tableData);
 
             if (Array.isArray(this.columns) && this.columns.length > 0) {
-
                 this.initColumns();
             }
 
@@ -861,7 +966,6 @@
             this.initView();
         },
         mounted() {
-
             this.setScrollbarWidth();
 
             this.tableEmpty();
@@ -869,18 +973,15 @@
             this.tableResize();
 
             if (Array.isArray(this.tableData) && this.tableData.length > 0) {
-
                 this.scrollControl();
             }
 
             this.controlScrollBar();
         },
         watch: {
-
             // 重新跟新列信息
-            'columns': {
+            columns: {
                 handler: function (newVal) {
-
                     this.initColumns();
                     // fix issue #261
                     this.tableResize();
@@ -888,19 +989,16 @@
                 deep: true
             },
             // 重新覆盖复杂表头信息
-            'titleRows': {
+            titleRows: {
                 handler: function (newVal) {
-
                     this.initColumns();
                 },
                 deep: true
             },
 
             // deep watch
-            'tableData': {
-
+            tableData: {
                 handler: function (newVal) {
-
                     this.skipRenderCells = [];
 
                     this.internalTableData = this.initInternalTableData(newVal);
@@ -910,7 +1008,6 @@
                     this.tableEmpty();
 
                     if (Array.isArray(newVal) && newVal.length > 0) {
-
                         this.initView();
 
                         this.scrollControl();
@@ -920,10 +1017,8 @@
                 },
                 deep: true
             },
-            'pagingIndex': {
-
+            pagingIndex: {
                 handler: function () {
-
                     this.clearCurrentRow();
 
                     this.bodyScrollTop();
@@ -931,8 +1026,7 @@
             }
         },
         beforeDestroy() {
-
             clearTimeout(this.resizeTimer);
         }
-    }
+    };
 </script>
